@@ -1,6 +1,15 @@
 venv/
+.venv/
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.log
+.env
 data/raw/
 data/models/
+data/features/
 .DS_Store
