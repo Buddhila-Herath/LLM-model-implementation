@@ -1,11 +1,21 @@
 from src.application.inference_stub import infer_probability
 from src.application.paths import models_dir
+from src.application.facial_expression_model import infer_face_probability
 
 
 def main() -> None:
-    model_path = models_dir() / "audio_model.pth"
-    prob, _ = infer_probability(str(model_path))
-    print(f"Predicted confidence probability: {prob:.2f}")
+    audio_model_path = models_dir() / "audio_model.pth"
+    audio_prob, _ = infer_probability(str(audio_model_path))
+
+    face_model_path = models_dir() / "face_model.pth"
+    features_path = models_dir().parent / "features" / "sample_features.json"
+    face_prob, face_source = infer_face_probability(str(face_model_path), str(features_path))
+
+    fused_prob = (audio_prob + face_prob) / 2.0
+
+    print(f"Audio confidence probability: {audio_prob:.2f}")
+    print(f"Face confidence probability ({face_source}): {face_prob:.2f}")
+    print(f"Fused confidence probability: {fused_prob:.2f}")
 
 
 if __name__ == "__main__":
