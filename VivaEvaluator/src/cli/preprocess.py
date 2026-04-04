@@ -9,6 +9,12 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--video", type=str, default="")
     parser.add_argument("--audio", type=str, default="")
+    parser.add_argument(
+        "--model",
+        type=str,
+        default="small",
+        help="Whisper model name (e.g. tiny, base, small, medium, large).",
+    )
     parser.add_argument("--out", type=str, default="sample_features.json")
     args = parser.parse_args()
 
@@ -19,7 +25,7 @@ def main() -> None:
         raise FileNotFoundError("No video or audio found in data/raw")
 
     output_path = str(Path(features_dir()) / args.out)
-    features = preprocess_sample(video_path, audio_path)
+    features = preprocess_sample(video_path, audio_path, whisper_model=args.model)
     save_features(features, output_path)
     print(f"Saved features to {output_path}")
 

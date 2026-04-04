@@ -6,9 +6,11 @@ from src.infrastructure.mediapipe_extractors import extract_face_hand_landmarks
 from src.infrastructure.asr_whisper import transcribe_audio
 
 
-def preprocess_sample(video_path: str, audio_path: str) -> Dict:
+def preprocess_sample(
+    video_path: str, audio_path: str, whisper_model: str = "small"
+) -> Dict:
     face_landmarks, hand_landmarks = extract_face_hand_landmarks(video_path)
-    transcript = transcribe_audio(audio_path)
+    transcript = transcribe_audio(audio_path, model_name=whisper_model)
     audio_features = extract_audio_features(audio_path)
 
     return {
